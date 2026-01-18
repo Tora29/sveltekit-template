@@ -1,9 +1,7 @@
-# Package Managers
-package-lock.json
-pnpm-lock.yaml
-yarn.lock
-bun.lock
-bun.lockb
+# Ignore artifacts
+build
+.svelte-kit
+node_modules
 
-# Miscellaneous
-/static/
+# Ignore Claude Code skills (contain specific formatting)
+.claude/skills/
