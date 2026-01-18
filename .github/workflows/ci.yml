@@ -76,6 +76,7 @@ jobs:
       - run: npx playwright install --with-deps
 
       - name: Run migrations
+        if: hashFiles('prisma/schema.prisma') != ''
         run: npx prisma migrate deploy
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/sveltekit
@@ -83,4 +84,4 @@ jobs:
       - name: Run E2E tests
         run: npm run test:e2e
         env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/sveltekit
+          DATABASE_URL: ${{ hashFiles('prisma/schema.prisma') != '' && 'postgresql://postgres:postgres@localhost:5432/sveltekit' || '' }}
