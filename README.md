@@ -1,38 +1,65 @@
-# sv
+# SvelteKit SSR Template
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+AI駆動開発用のSvelteKitテンプレート。
 
-## Creating a project
+## Stack
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Frontend**: Svelte 5, SvelteKit 2, TailwindCSS 4
+- **Backend**: Prisma 7, PostgreSQL
+- **Testing**: Vitest, Playwright
+- **Type Safety**: TypeScript 5, Zod
 
-```sh
-# create a new project in the current directory
-npx sv create
+## セットアップ
 
-# create a new project in my-app
-npx sv create my-app
-```
+```bash
+# 依存関係をインストール
+npm install
 
-## Developing
+# PostgreSQLを起動
+docker compose up -d
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+# マイグレーションを実行
+npx prisma migrate deploy
 
-```sh
+# 開発サーバーを起動
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+## コマンド
 
-To create a production version of your app:
+| コマンド | 説明 |
+|---------|------|
+| `npm run dev` | 開発サーバー起動 |
+| `npm run build` | プロダクションビルド |
+| `npm run check` | 型チェック |
+| `npm run lint` | Lint実行 |
+| `npm run format` | コード整形 |
+| `npm run test:unit` | ユニットテスト |
+| `npm run test:e2e` | E2Eテスト |
 
-```sh
-npm run build
+## ディレクトリ構造
+
+```
+src/
+├── lib/
+│   ├── {feature}/        # 機能別ディレクトリ
+│   │   ├── components/
+│   │   ├── service/
+│   │   ├── types.ts
+│   │   └── index.ts
+│   └── shared/           # 共有コード
+│       ├── components/
+│       ├── server/
+│       ├── utils/
+│       └── types/
+├── routes/               # ページ
+└── app.html
+prisma/                   # DBスキーマ
+e2e/                      # E2Eテスト
 ```
 
-You can preview the production build with `npm run preview`.
+## 開発フロー
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+1. **TDD**: テスト → 失敗確認 → 実装 → パス
+2. テストはソースの隣に配置: `*.spec.ts`
+3. サーバー専用コードは `server/` に配置
